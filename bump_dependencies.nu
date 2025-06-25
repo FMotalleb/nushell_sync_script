@@ -38,5 +38,5 @@ export def "main" [] {
     | update version $plugin_version
     | save nupm.nuon --force
   cargo update
-  git commit -am $"bump: nushell plugin/protocol to ($plugin_version)"
+  cargo build
 }
