@@ -7,7 +7,14 @@ def "gh latest tag" [repo: string]: nothing -> string {
 
 export def "main" [] {
   let plugin_repository = "nushell/nushell"
-  let plugin_version = (gh latest tag $plugin_repository)
+  let plugin_version = (try {
+      http get https://crates.io/api/v1/crates/nu-plugin?include=keywords%2Ccategories%2Cdownloads%2Cdefault_version
+        | get versions 
+        | first 
+        | get num
+    } catch { 
+      gh latest tag $plugin_repository
+    })
   let toml = (open Cargo.toml)
   mut deps = ($toml | get dependencies)
   let fields = (
