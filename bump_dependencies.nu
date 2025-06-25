@@ -17,7 +17,6 @@ export def "main" [] {
         | each {|i| }
     )
   for i in $fields {
-    print ($deps | get $i)
     $deps = (
       $deps 
         | update $i (
